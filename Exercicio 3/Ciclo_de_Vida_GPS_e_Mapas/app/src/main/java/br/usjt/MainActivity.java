@@ -2,6 +2,7 @@ package br.usjt;
 
 import br.usjt.br.usjt.models.UsuarioModel;
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -35,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView locationTextView;
     private double latitudeAtual;
     private double longitudeAtual;
+    public static final String DESCRICAO =
+            "br.usjt.deswebmob.servicedesk.descricao";
 
     public MainActivity() {
 
@@ -42,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        final Activity atividade;
         locationManager = (LocationManager)
                 getSystemService(Context.LOCATION_SERVICE);
 
@@ -59,14 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 latitudeAtual =  location.getLatitude();
                 longitudeAtual = location.getLongitude();
 
-
-
-                ListaUsuarios.add(usuario);
-
-                locationTextView.setText(String.format("Lat: %f, Long: %f", usuario.getLat(),
-                        usuario.getLon()));
-
-                verificaSeSalva(ListaUsuarios);
+                Salvar(usuario);
 
             }
 
@@ -88,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         super.onCreate(savedInstanceState);
+        atividade = this;
         setContentView(R.layout.activity_main);
 
         locationTextView = findViewById(R.id.locationTextView);
@@ -105,25 +102,24 @@ public class MainActivity extends AppCompatActivity {
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                 mapIntent.setPackage("com.google.android.apps.maps");
                 startActivity(mapIntent);
+
+                Intent intent = new Intent(atividade, ListarLocalizacao.class);
+                intent.putExtra(DESCRICAO, ListaUsuarios.toString());
+                startActivity(intent);
+
             }
 
         });
     }
 
-    private void verificaSeSalva(List<UsuarioModel> listaUsuarios) {
+    private void Salvar(UsuarioModel user) {
 
-        for (UsuarioModel usuario : listaUsuarios) {
-
-            //vefirica se a distancia percorrida foi maior que 200
-            if(usuario.getLat() - latitudeAtual == 200){
-                ListaUsuariosVal.add(usuario);
-            }
-
+        if (ListaUsuarios.size() < 50) {
+            ListaUsuarios.add(user);
+        } else if (ListaUsuarios.size() >= 50) {
+            ListaUsuarios.remove(50);
+            ListaUsuarios.add(user);
         }
-
-
-
-        ListaUsuarios.add(usuario);
     }
 
     @Override
@@ -184,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
                         Manifest.permission.ACCESS_FINE_LOCATION) ==
                         PackageManager.PERMISSION_GRANTED){
                     locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                            120000, 200, locationListener);
+                            20000, 200, locationListener);
                 }
             }
             else{

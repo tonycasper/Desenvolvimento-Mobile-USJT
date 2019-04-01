@@ -58,9 +58,6 @@ public class MainActivity extends AppCompatActivity {
 
                 latitudeAtual =  location.getLatitude();
                 longitudeAtual = location.getLongitude();
-
-
-
                 ListaUsuarios.add(usuario);
 
                 locationTextView.setText(String.format("Lat: %f, Long: %f", usuario.getLat(),
@@ -184,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
                         Manifest.permission.ACCESS_FINE_LOCATION) ==
                         PackageManager.PERMISSION_GRANTED){
                     locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                            120000, 200, locationListener);
+                            20000, 200, locationListener);
                 }
             }
             else{
