@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Bate-Papo
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-item>
+    <ion-label floating>Nome:</ion-label>
+    <ion-input [(ngModel)]="nome" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Sala:</ion-label>
+    <ion-select [(ngModel)]="sala">
+      <ion-option *ngFor="let sala of salaService.salas" [value]="sala">{{sala.nome}}</ion-option>
+    </ion-select>
+  </ion-item>
+  <button ion-button full (click)="onEntrarClick(nome, sala)">Entrar</button>
+</ion-content>

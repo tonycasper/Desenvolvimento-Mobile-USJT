@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: tempo
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: arqdsis
+Implementation-Vendor-Id: br.usjt
+Build-Jdk: 1.8.0_192
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/tempo
+Created-By: Maven Integration for Eclipse
+
